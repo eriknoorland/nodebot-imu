@@ -1,20 +1,17 @@
-const EventEmitter = require('events');
-const SerialPort = require('serialport');
-const cobs = require('cobs');
-const Parser = require('./Parser');
+import EventEmitter from 'events';
+import { SerialPort } from 'serialport';
+import Parser from './Parser';
 
-const IMU = path => {
+const cobs = require('cobs');
+
+export default (path: string) => {
   const eventEmitter = new EventEmitter();
   const requestStartFlag = 0xA6;
 
-  let parser;
-  let port;
+  let port: SerialPort;
+  let parser: Parser;
 
-  /**
-   * Init
-   * @return {Promise}
-   */
-  function init() {
+  function init(): Promise<void> {
     return new Promise((resolve, reject) => {
       if (port) {
         setTimeout(reject, 0);
@@ -29,7 +26,7 @@ const IMU = path => {
         }
       }, 1000);
 
-      port = new SerialPort(path, { baudRate: 115200 });
+      port = new SerialPort({ path, baudRate: 115200 });
       parser = new Parser();
 
       port.pipe(parser);
@@ -53,11 +50,7 @@ const IMU = path => {
     });
   }
 
-  /**
-   * Reset
-   * @return {Promise}
-   */
-  function reset() {
+  function reset(): Promise<void> {
     return new Promise(resolve => {
       writeToSerialPort([requestStartFlag, 0x20]);
 
@@ -73,7 +66,7 @@ const IMU = path => {
     return Promise.resolve();
   }
 
-  function writeToSerialPort(data) {
+  function writeToSerialPort(data: number[]) {
     port.write(cobs.encode(Buffer.from(data), true));
   }
 
@@ -92,5 +85,3 @@ const IMU = path => {
     off: eventEmitter.off.bind(eventEmitter),
   };
 };
-
-module.exports = IMU;
