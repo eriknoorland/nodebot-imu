@@ -1,6 +1,6 @@
 {
   "name": "@eriknoorland/nodebot-imu",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A Node module to communicate with the Adafruit BNO055 IMU through a Seeeduino XIAO",
   "files": [
     "dist"
