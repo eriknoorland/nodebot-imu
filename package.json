@@ -1,9 +1,22 @@
 {
-  "name": "nodebot-imu",
+  "name": "@eriknoorland/nodebot-imu",
   "version": "0.1.0",
-  "description": "A Node module to communicate withe the Adafruit BNO055 IMU through a Seeeduino XIAO",
-  "main": "index.js",
+  "description": "A Node module to communicate with the Adafruit BNO055 IMU through a Seeeduino XIAO",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
   "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -26,8 +39,17 @@
   },
   "homepage": "https://github.com/eriknoorland/nodebot-imu#readme",
   "dependencies": {
+    "@eriknoorland/nodebot-utils": "^1.0.1",
     "cobs": "^0.2.1",
-    "robotlib": "git+https://git@github.com/eriknoorland/node-robotlib.git",
-    "serialport": "^8.0.8"
+    "serialport": "^10"
+  },
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.5",
+    "@types/node": "^20.10.6",
+    "rollup": "^4.9.2",
+    "rollup-plugin-dts": "^6.1.0",
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.3"
   }
 }
